@@ -122,7 +122,12 @@ const routes = [
 ];
 
 const server = http.createServer(async (req, res) => {
-  const allowedOrigin = process.env.FRONTEND_ORIGIN || "http://localhost:5174";
+  const allowedOrigins = (process.env.FRONTEND_ORIGIN || "http://localhost:5174")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+  const requestOrigin = req.headers.origin;
+  const allowedOrigin = allowedOrigins.includes(requestOrigin) ? requestOrigin : allowedOrigins[0];
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");

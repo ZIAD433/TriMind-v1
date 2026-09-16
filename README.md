@@ -25,6 +25,23 @@ Copy `.env.example` to `.env` when changing ports or origins. The browser only r
 - `POST /api/progress/quiz` — persisted server endpoint for quiz attempts.
 - `POST /api/ai/mentor` — explicit unavailable response until a server provider is configured.
 
+## Railway deployment
+
+Deploy the backend as its own Railway service from this repository:
+
+1. Create a Railway project and add a service from GitHub.
+2. Set the service start command to `npm run start:api` (the included `railway.toml` does this automatically).
+3. Generate a public Railway domain and verify `https://YOUR-API-DOMAIN/api/health` returns `{ "ok": true }`.
+4. Set backend variables:
+   - `NODE_ENV=production`
+   - `FRONTEND_ORIGIN=https://YOUR-FRONTEND-DOMAIN`
+   - `PORT` is supplied by Railway automatically.
+5. In the frontend hosting service, set `VITE_API_URL=https://YOUR-API-DOMAIN/api` and redeploy the frontend. This is a build-time variable; changing it requires a new frontend deployment.
+
+Do not set `VITE_API_URL` to `localhost` in production. In a deployed browser, `localhost` refers to the visitor's own computer. If the frontend reports `Unable to reach the backend`, first open the Railway health URL directly, then check the exact frontend origin in `FRONTEND_ORIGIN`.
+
+The local JSON repository is not suitable for production persistence on Railway's ephemeral filesystem. Use a Railway PostgreSQL service and migrate the repository before relying on production student records.
+
 ## Database direction
 
 `docker compose up -d postgres` starts the documented local PostgreSQL service for the production data-layer migration. This initial vertical slice deliberately uses a dependency-free JSON repository so it can run immediately in this constrained starter repository; the route and record boundaries are isolated in `server/index.mjs` for migration to Express/Prisma without changing the frontend contract.
