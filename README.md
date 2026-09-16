@@ -27,6 +27,8 @@ Copy `.env.example` to `.env` when changing ports or origins. The browser only r
 
 ## Railway deployment
 
+The repository pins Node.js 22 through `.nvmrc`, `package.json`, and `railway.toml`. This is required because the current Vite/Rolldown toolchain does not build on Railway's older Node 18 image.
+
 Deploy the backend as its own Railway service from this repository:
 
 1. Create a Railway project and add a service from GitHub.
