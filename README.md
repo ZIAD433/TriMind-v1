@@ -40,3 +40,4 @@ npm run test:api
 The frontend still contains the original embedded catalog and presentation mappings. Empty video URLs remain unavailable rather than fabricated. AI credentials are not included; the UI receives an honest backend error when AI is unavailable.
 # TriMind-v1
 # TriMind-v1
+# TriMind-v1
