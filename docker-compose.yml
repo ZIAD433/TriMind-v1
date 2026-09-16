@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: trimind
+      POSTGRES_USER: trimind
+      POSTGRES_PASSWORD: change-me-local
+    ports:
+      - "5432:5432"
+    volumes:
+      - trimind-postgres:/var/lib/postgresql/data
+
+volumes:
+  trimind-postgres:
